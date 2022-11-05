@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && next-sitemap --config sitemap.config.js",
-    "start": "next start",
+    "prestart": "npm run export",
+    "start": "serve out",
     "preexport": "npm run build",
     "export": "next export",
     "lint": "next lint --dir src",
