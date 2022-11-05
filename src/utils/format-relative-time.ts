@@ -16,7 +16,7 @@ export function formatRelativeTime(fromDate, toDate?) {
 
   for (let u in UNITS) {
     if (Math.abs(elapsed) > UNITS[u] || u === "second")
-      return rtf.format(Math.round(elapsed / UNITS[u]), u);
+      return rtf.format(Math.round(elapsed / UNITS[u]), u as Intl.RelativeTimeFormatUnit);
   }
 
   return fromDate.toLocaleDateString(LOCALE);
