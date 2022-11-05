@@ -41,7 +41,7 @@ const Search = () => {
           <InstantSearch indexName={indexName} searchClient={searchClient}>
             <Configure hitsPerPage={5} />
             <SearchBox translations={{ placeholder: '記事を検索' }} />
-            <div className='absolute top-14'>
+            <div className='absolute top-14 w-full'>
               <SearchResult />
             </div>
           </InstantSearch>
