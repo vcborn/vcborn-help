@@ -1,7 +1,8 @@
 {
   "name": "vcborn-help",
   "version": "0.0.1",
-  "private": true,
+  "author": "VCborn <support@vcborn.com> (https://vcborn.com)",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "build": "next build && next-sitemap --config sitemap.config.js",

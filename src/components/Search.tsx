@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/named
 import { MultipleQueriesQuery } from '@algolia/client-search'
 import algoliasearch from 'algoliasearch/lite'
 import { InstantSearch, SearchBox, Configure } from 'react-instantsearch-dom'

@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { useEffect, useState, useCallback } from 'react' // 追加
+import { useEffect, useState, useCallback } from 'react'
+// eslint-disable-next-line import/named
 import { Hit } from 'react-instantsearch-core'
 import { Hits, connectSearchBox } from 'react-instantsearch-dom'
 
