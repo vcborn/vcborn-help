@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -5,7 +6,6 @@ import { IoIosArrowForward } from 'react-icons/io'
 import { MdUpdate, MdAccessTime } from 'react-icons/md'
 import Layout from '@/layouts/Layout'
 import { getDirectusClient } from '@/lib/directus'
-import { formatRelativeTime } from '@/utils/format-relative-time'
 
 const cat = {
   vclinux: 'VCLinux',
@@ -78,12 +78,12 @@ const Category = (props) => {
           {props.data.date_updated && (
             <time className='flex items-center mr-4'>
               <MdUpdate size={20} className='mr-1' />
-              {formatRelativeTime(new Date(props.data.date_updated))}
+              {format(new Date(props.data.date_updated), 'yyyy/MM/dd')}
             </time>
           )}
           <time className='flex items-center'>
             <MdAccessTime size={20} className='mr-1' />
-            {formatRelativeTime(new Date(props.data.date_created))}
+            {format(new Date(props.data.date_created), 'yyyy/MM/dd')}
           </time>
         </div>
         <div

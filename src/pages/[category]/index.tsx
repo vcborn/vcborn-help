@@ -4,8 +4,6 @@ import { useRouter } from 'next/router'
 import { IoIosArrowForward } from 'react-icons/io'
 import Layout from '@/layouts/Layout'
 import { getDirectusClient } from '@/lib/directus'
-import { formatRelativeTime } from '@/utils/format-relative-time'
-import { getAssetURL } from '@/utils/get-asset-url'
 
 const cat = {
   vclinux: 'VCLinux',
