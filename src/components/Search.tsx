@@ -3,7 +3,7 @@ import { MultipleQueriesQuery } from '@algolia/client-search'
 import algoliasearch from 'algoliasearch/lite'
 import { InstantSearch, SearchBox, Configure } from 'react-instantsearch-dom'
 import { SearchResult } from './HitComponent'
-import { useLocale } from '@/hooks/useLocale'
+//import { useLocale } from '@/hooks/useLocale'
 
 const Search = () => {
   const algoliaClient = algoliasearch(
@@ -27,11 +27,11 @@ const Search = () => {
     },
   }
   const indexName = 'help'
-  const { t } = useLocale()
+  //const { t } = useLocale()
   return (
     <div className='bg-gray-100 pt-48 pb-12'>
       <div className='px-4 max-w-6xl mx-auto'>
-        <h1 className='text-5xl font-bold'>{t.SEARCH.HELP}</h1>
+        <h1 className='text-5xl font-bold'>お探しの記事はなんですか？</h1>
         <div className='relative max-w-[39rem] mt-10'>
           <svg viewBox='0 0 24 24' color='#757d85' className='w-4 h-4 absolute left-4 top-[1.1rem]'>
             <g fill='currentColor'>
@@ -43,7 +43,7 @@ const Search = () => {
           </svg>
           <InstantSearch indexName={indexName} searchClient={searchClient}>
             <Configure hitsPerPage={5} />
-            <SearchBox translations={{ placeholder: t.SEARCH.TEXT }} />
+            <SearchBox translations={{ placeholder: "記事を検索..." }} />
             <div className='absolute top-14 w-full'>
               <SearchResult />
             </div>

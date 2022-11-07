@@ -1,5 +1,5 @@
-import Link from "next/link"
 import { Menu, Transition } from '@headlessui/react'
+import Link from "next/link"
 import { Fragment } from 'react'
 import { MdTranslate } from "react-icons/md"
 
@@ -27,7 +27,7 @@ const Footer = () => {
     <footer className='bg-gray-100 w-full px-4 absolute bottom-0'>
       <div className='relative container mx-auto max-w-6xl py-6 text-sm flex justify-between items-center'>
         <p className='font-medium text-gray-500'>&copy; VCborn 2022</p>
-        <Menu as="div" className="relative inline-block text-left">
+        {/*<Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button className="duration-200 hover:opacity-80">
             <MdTranslate size={25} />
@@ -91,7 +91,7 @@ const Footer = () => {
             </div>
           </Menu.Items>
         </Transition>
-      </Menu>
+                </Menu>*/}
       </div>
     </footer>
   )
