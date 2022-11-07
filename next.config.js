@@ -13,6 +13,10 @@ const moduleExports = {
   images: {
     domains: ['console.vcborn.com'],
   },
+  i18n: {
+    locales: ['ko', 'cn', 'en', 'ja'],
+    defaultLocale: 'ja',
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },

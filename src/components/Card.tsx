@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { useLocale } from '@/hooks/useLocale'
 
 type Article = {
   id: string
@@ -19,6 +20,7 @@ const cat = {
 }
 
 const Card = ({ title, articles }: { title: string; articles?: Article[] }) => {
+  const { t } = useLocale()
   return (
     <div className='mb-12 md:mb-24' key={title}>
       <h2 className='text-3xl font-bold mb-4'>{cat[title]}</h2>
@@ -42,7 +44,7 @@ const Card = ({ title, articles }: { title: string; articles?: Article[] }) => {
                   className='text-black border-black border-4 duration-200 hover:text-white hover:bg-black px-3 py-1 font-bold'
                   href={`/${title}`}
                 >
-                  すべて表示
+                  {t.SHOWALL}
                 </Link>
               </li>
             )
