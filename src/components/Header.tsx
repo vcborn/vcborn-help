@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { FiMenu } from 'react-icons/fi'
@@ -8,7 +9,7 @@ const Header = () => {
     <header className='absolute md:fixed top-0 left-0 right-0 z-40 px-6 py-4 md:px-10 md:py-6'>
       <div className='flex items-center justify-between max-w-6xl mx-auto'>
         <Link href='/'>
-          <h2 className='font-bold text-xl'>VCborn Support</h2>
+          <Image src='/support-icon.svg' alt='VCborn Support' height={60} width={60} />
         </Link>
         <ul className='font-semibold md:flex gap-5 hidden'>
           <li>
