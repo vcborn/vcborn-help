@@ -16,9 +16,9 @@ const cat = {
   vclinux: 'VCLinux',
   reamix: 'Reamix',
   mcborn: 'MCborn',
-  vcmi: "VCMi",
-  bot: "Bot",
-  shiftium: "Shiftium",
+  vcmi: 'VCMi',
+  bot: 'Bot',
+  shiftium: 'Shiftium',
   other: 'Other',
 }
 
@@ -28,8 +28,15 @@ const Card = ({ title, articles }: { title: string; articles?: Article[] }) => {
     <div className='mb-12 md:mb-24' key={title}>
       <h2 className='text-3xl font-bold mb-4'>{cat[title]}</h2>
       <ul className='text-gray-500'>
-        {articles.map((article, index) => {
-          if (title === article.category && index <= 3)
+        {articles.map((article) => {
+          if (
+            title === article.category &&
+            articles
+              .filter((al) => {
+                return al.category === title
+              })
+              .findIndex(({ id }) => id === article.id) <= 3
+          )
             return (
               <li className='py-2' key={article.id}>
                 <Link
@@ -40,7 +47,14 @@ const Card = ({ title, articles }: { title: string; articles?: Article[] }) => {
                 </Link>
               </li>
             )
-          if (title === article.category && index >= 4)
+          if (
+            title === article.category &&
+            articles
+              .filter((al) => {
+                return al.category === title
+              })
+              .findIndex(({ id }) => id === article.id) >= 4
+          )
             return (
               <li className='mt-6' key={article.category}>
                 <Link
