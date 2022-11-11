@@ -35,7 +35,7 @@ const Card = ({ title, articles }: { title: string; articles?: Article[] }) => {
               .filter((al) => {
                 return al.category === title
               })
-              .findIndex(({ id }) => id === article.id) <= 3
+              .findIndex(({ id }) => id === article.id) <= 2
           )
             return (
               <li className='py-2' key={article.id}>
@@ -53,7 +53,7 @@ const Card = ({ title, articles }: { title: string; articles?: Article[] }) => {
               .filter((al) => {
                 return al.category === title
               })
-              .findIndex(({ id }) => id === article.id) >= 4
+              .findIndex(({ id }) => id === article.id) >= 3
           )
             return (
               <li className='mt-6' key={article.category}>
