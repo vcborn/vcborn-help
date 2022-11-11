@@ -9,6 +9,9 @@ const cat = {
   vclinux: 'VCLinux',
   reamix: 'Reamix',
   mcborn: 'MCborn',
+  vcmi: "VCMi",
+  bot: "Bot",
+  shiftium: "Shiftium",
   other: 'Other',
 }
 
