@@ -58,7 +58,7 @@ const Category = (props) => {
       <Head>
         <title>{`${props.data.title} | VCborn Support`}</title>
       </Head>
-      <div className='px-4 pb-20'>
+      <div className='px-4 pb-60'>
         <nav className='text-md text-gray-400 pb-6'>
           <ul className='flex items-center'>
             <li>
