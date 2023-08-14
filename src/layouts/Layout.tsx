@@ -1,4 +1,3 @@
-import ChatwootWidget from '@/components/ChatwootWidget'
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
 import Search from '@/components/Search'
@@ -13,7 +12,6 @@ export default function Layout({ children }) {
       <Header />
       <Search />
       <div className='pt-8 container max-w-6xl mx-auto'>{children}</div>
-      <ChatwootWidget />
       <Footer />
     </div>
   )
