@@ -3,28 +3,22 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { IoIosArrowForward } from 'react-icons/io'
 import Layout from '@/layouts/Layout'
-import { getDirectusClient } from '@/lib/directus'
+import contentfulClient from '@/lib/contentful'
+import { TypeSupportSkeleton } from '@/types/contentful'
+import { EntryCollection } from 'contentful'
 
 const cat = {
-  vclinux: 'VCLinux',
-  reamix: 'Reamix',
-  mcborn: 'MCborn',
+  mcborn: "MCborn",
   vcmi: "VCMi",
-  bot: "Bot",
-  shiftium: "Shiftium",
-  other: 'Other',
+  vclinux: "VCLinux"
 }
 
 export async function getStaticPaths() {
-  const directus = await getDirectusClient()
-  const { data } = await directus.items('help').readByQuery({
-    fields: 'category',
-    limit: -1,
-  })
+  const articles = await contentfulClient.getEntries<TypeSupportSkeleton>({ content_type: 'support' })
   return {
-    paths: data.map((post) => {
+    paths: articles.items.map((post) => {
       return {
-        params: { category: post.category.toString() },
+        params: { category: post.fields.category.toString().toLowerCase() },
       }
     }),
     fallback: false,
@@ -32,29 +26,23 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const { category } = params
-  const directus = await getDirectusClient()
-  const { data } = await directus.items('help').readByQuery({
-    sort: ['title'],
-    filter: {
-      category: {
-        _eq: category,
-      },
-    },
-    limit: -1,
+  const { category }: {category: string} = params
+  const articles = await contentfulClient.getEntries<TypeSupportSkeleton>({
+    content_type: 'support',
+    'fields.category': cat[category],
   })
   return {
-    props: { data },
+    props: { articles },
   }
 }
 
-const Category = (posts) => {
+const Category = ({articles}: {articles: EntryCollection<TypeSupportSkeleton>}) => {
   const router = useRouter()
   const { category } = router.query
   return (
     <Layout>
       <Head>
-        <title>{`${cat[category as keyof typeof cat]} | VCborn Support`}</title>
+        <title>{`${cat[category.toString()]} | VCborn Support`}</title>
       </Head>
       <div className='px-4 pb-20'>
         <nav className='text-md text-gray-400 pb-6'>
@@ -66,20 +54,20 @@ const Category = (posts) => {
             </li>
             <li>
               <Link
-                href={`/${category}`}
+                href={`/${category.toString()}`}
                 className='flex items-center mr-3 duration-200 hover:text-black'
               >
-                {cat[category as keyof typeof cat]} <IoIosArrowForward className='ml-3' />
+                {cat[category.toString()]} <IoIosArrowForward className='ml-3' />
               </Link>
             </li>
           </ul>
         </nav>
-        <h2 className='text-4xl font-bold mb-3'>{cat[category as keyof typeof cat]}</h2>
-        {posts.data.map((post) => {
+        <h2 className='text-4xl font-bold mb-3'>{cat[category.toString()]}</h2>
+        {articles.items.map((article, i) => {
           return (
-            <article key={post.id} className='py-2'>
-              <Link href={`/${category}/${post.id}`}>
-                <h3 className='text-gray-400 duration-200 hover:text-black'>{post.title}</h3>
+            <article key={article.sys.id} className='py-2'>
+              <Link href={`/${category.toString().toLowerCase()}/${article.sys.id}`}>
+                <h3 className='text-gray-400 duration-200 hover:text-black'>{article.fields.title.toString()}</h3>
               </Link>
             </article>
           )

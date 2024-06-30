@@ -1,65 +1,46 @@
+import { TypeSupportSkeleton } from '@/types/contentful';
+import { EntryCollection } from 'contentful';
 import Link from 'next/link'
 //import { useLocale } from '@/hooks/useLocale'
 
-type Article = {
-  id: string
-  title: string
-  category: string
-  date_created: Date
-  date_updated: Date
-  user_created: string
-  draft: Boolean
-  content: string
-}
-
-const cat = {
-  vclinux: 'VCLinux',
-  reamix: 'Reamix',
-  mcborn: 'MCborn',
-  vcmi: 'VCMi',
-  bot: 'Bot',
-  shiftium: 'Shiftium',
-  other: 'Other',
-}
-
-const Card = ({ title, articles }: { title: string; articles?: Article[] }) => {
+const Card = ({ title, articles }: { title: string; articles?: EntryCollection<TypeSupportSkeleton> }) => {
   //const { t } = useLocale()
   return (
-    <div className='mb-12 md:mb-24' key={title}>
-      <h2 className='text-3xl font-bold mb-4'>{cat[title]}</h2>
+    <div className='mb-12 md:mb-24' key={title.toLowerCase()}>
+      <h2 className='text-3xl font-bold mb-4'>{title}</h2>
       <ul className='text-gray-500'>
-        {articles.map((article) => {
+        {articles.items.map((article) => {
           if (
-            title === article.category &&
-            articles
+            title === article.fields.category &&
+            articles.items
               .filter((al) => {
-                return al.category === title
+                return al.fields.category === title
               })
-              .findIndex(({ id }) => id === article.id) <= 2
+              .findIndex((al) => al.sys.id === article.sys.id) <= 2
           )
             return (
-              <li className='py-2' key={article.id}>
+              <li className='py-2' key={article.sys.id}>
                 <Link
-                  href={`/${article.category}/${article.id}`}
+                  href={`/${article.fields.category.toLowerCase()}/${article.sys.id}`}
                   className='duration-200 hover:text-black'
                 >
-                  {article.title}
+                  {article.fields.title}
                 </Link>
               </li>
             )
           if (
-            title === article.category &&
-            articles
+            title === article.fields.category &&
+            articles.items
               .filter((al) => {
-                return al.category === title
+                return al.fields.category === title
               })
-              .findIndex(({ id }) => id === article.id) >= 3
+              .findIndex((al) => al.sys.id === article.sys.id) >= 3
           )
             return (
-              <li className='mt-6' key={article.category}>
+              <li className='mt-6' key={article.fields.category}>
                 <Link
                   className='text-black border-black border-4 duration-200 hover:text-white hover:bg-black px-3 py-1 font-bold'
-                  href={`/${title}`}
+                  href={`/${title.toLowerCase()}`}
                 >
                   すべて表示
                 </Link>

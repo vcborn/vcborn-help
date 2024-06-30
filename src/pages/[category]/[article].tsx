@@ -5,28 +5,24 @@ import { useRouter } from 'next/router'
 import { IoIosArrowForward } from 'react-icons/io'
 import { MdUpdate, MdAccessTime } from 'react-icons/md'
 import Layout from '@/layouts/Layout'
-import { getDirectusClient } from '@/lib/directus'
+import contentfulClient from '@/lib/contentful'
+import { TypeSupportSkeleton } from '@/types/contentful'
+import { Entry } from 'contentful'
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
+import { Document } from '@contentful/rich-text-types'
 
 const cat = {
-  vclinux: 'VCLinux',
-  reamix: 'Reamix',
-  mcborn: 'MCborn',
+  mcborn: "MCborn",
   vcmi: "VCMi",
-  bot: "Bot",
-  shiftium: "Shiftium",
-  other: 'Other',
+  vclinux: "VCLinux"
 }
 
 export async function getStaticPaths() {
-  const directus = await getDirectusClient()
-  const { data } = await directus.items('help').readByQuery({
-    fields: ['id', 'category'],
-    limit: -1,
-  })
+  const articles = await contentfulClient.getEntries<TypeSupportSkeleton>({ content_type: 'support' })
   return {
-    paths: data.map((post) => {
+    paths: articles.items.map((article) => {
       return {
-        params: { category: post.category.toString(), article: post.id.toString() },
+        params: { category: article.fields.category.toString().toLowerCase(), article: article.sys.id.toString() },
       }
     }),
     fallback: false,
@@ -34,29 +30,20 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const { article, category } = params
-  const directus = await getDirectusClient()
-  const data = await directus.items('help').readOne(article, {
-    sort: ['title'],
-    filter: {
-      category: {
-        _eq: category,
-      },
-    },
-    limit: -1,
-  })
+  const { article } = params
+  const post = await contentfulClient.getEntry<TypeSupportSkeleton>(article)
   return {
-    props: { data },
+    props: { post },
   }
 }
 
-const Category = (props) => {
+const Category = ({post}: {post: Entry<TypeSupportSkeleton>}) => {
   const router = useRouter()
   const { category } = router.query
   return (
     <Layout>
       <Head>
-        <title>{`${props.data.title} | VCborn Support`}</title>
+        <title>{`${post.fields.title} | VCborn Support`}</title>
       </Head>
       <div className='px-4 pb-60'>
         <nav className='text-md text-gray-400 pb-6'>
@@ -68,31 +55,32 @@ const Category = (props) => {
             </li>
             <li>
               <Link
-                href={`/${category}`}
+                href={`/${category.toString().toLowerCase()}`}
                 className='flex items-center mr-3 duration-200 hover:text-black'
               >
-                {cat[category as keyof typeof cat]} <IoIosArrowForward className='ml-3' />
+                {cat[category.toString()]} <IoIosArrowForward className='ml-3' />
               </Link>
             </li>
           </ul>
         </nav>
-        <h2 className='text-4xl font-bold mb-3'>{props.data.title}</h2>
+        <h2 className='text-4xl font-bold mb-3'>{post.fields.title.toString()}</h2>
         <div className='flex my-5 text-gray-500'>
-          {props.data.date_updated && (
+          {post.fields.date_updated && (
             <time className='flex items-center mr-4'>
               <MdUpdate size={20} className='mr-1' />
-              {format(new Date(props.data.date_updated), 'yyyy/MM/dd')}
+              {format(new Date(post.fields.date_updated.toString()), 'yyyy/MM/dd')}
             </time>
           )}
           <time className='flex items-center'>
             <MdAccessTime size={20} className='mr-1' />
-            {format(new Date(props.data.date_created), 'yyyy/MM/dd')}
+            {format(new Date(post.fields.date_created.toString()), 'yyyy/MM/dd')}
           </time>
         </div>
         <div
           className='prose lg:prose-md max-w-3xl'
-          dangerouslySetInnerHTML={{ __html: props.data.content }}
-        />
+        >
+          {documentToReactComponents(post.fields.content as Document)}
+        </div>
       </div>
     </Layout>
   )
