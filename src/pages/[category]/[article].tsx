@@ -9,20 +9,25 @@ import contentfulClient from '@/lib/contentful'
 import { TypeSupportSkeleton } from '@/types/contentful'
 import { Entry } from 'contentful'
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { Document } from '@contentful/rich-text-types'
+import { Document, BLOCKS } from '@contentful/rich-text-types'
 
 const cat = {
-  mcborn: "MCborn",
-  vcmi: "VCMi",
-  vclinux: "VCLinux"
+  mcborn: 'MCborn',
+  vcmi: 'VCMi',
+  vclinux: 'VCLinux',
 }
 
 export async function getStaticPaths() {
-  const articles = await contentfulClient.getEntries<TypeSupportSkeleton>({ content_type: 'support' })
+  const articles = await contentfulClient.getEntries<TypeSupportSkeleton>({
+    content_type: 'support',
+  })
   return {
     paths: articles.items.map((article) => {
       return {
-        params: { category: article.fields.category.toString().toLowerCase(), article: article.sys.id.toString() },
+        params: {
+          category: article.fields.category.toString().toLowerCase(),
+          article: article.sys.id.toString(),
+        },
       }
     }),
     fallback: false,
@@ -37,7 +42,7 @@ export async function getStaticProps({ params }) {
   }
 }
 
-const Category = ({post}: {post: Entry<TypeSupportSkeleton>}) => {
+const Category = ({ post }: { post: Entry<TypeSupportSkeleton> }) => {
   const router = useRouter()
   const { category } = router.query
   return (
@@ -76,10 +81,17 @@ const Category = ({post}: {post: Entry<TypeSupportSkeleton>}) => {
             {format(new Date(post.fields.date_created.toString()), 'yyyy/MM/dd')}
           </time>
         </div>
-        <div
-          className='prose lg:prose-md max-w-3xl'
-        >
-          {documentToReactComponents(post.fields.content as Document)}
+        <div className='prose lg:prose-md max-w-3xl'>
+          {documentToReactComponents(post.fields.content as Document, {
+            renderNode: {
+              [BLOCKS.EMBEDDED_ASSET]: (node, children) => {
+                const src = 'https:' + node.data.target.fields.file.url
+                const height = node.data.target.fields.file.details.height
+                const width = node.data.target.fields.file.details.width
+                return <img src={src} width={width} height={height} />
+              },
+            },
+          })}
         </div>
       </div>
     </Layout>

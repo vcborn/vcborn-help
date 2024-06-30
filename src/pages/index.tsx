@@ -6,7 +6,10 @@ import { EntryCollection } from 'contentful'
 import { TypeSupportSkeleton } from '@/types/contentful'
 
 export async function getStaticProps({ params }) {
-  const articles = await contentfulClient.getEntries({ content_type: 'support' })
+  const articles = await contentfulClient.getEntries({
+    content_type: 'support',
+    order: ['-fields.date_created'],
+  })
   const categories = articles.items.map((category) => {
     return category.fields.category
   })
@@ -15,7 +18,13 @@ export async function getStaticProps({ params }) {
   }
 }
 
-const Home = ({categories, articles}: {categories: string[], articles: EntryCollection<TypeSupportSkeleton>}) => {
+const Home = ({
+  categories,
+  articles,
+}: {
+  categories: string[]
+  articles: EntryCollection<TypeSupportSkeleton>
+}) => {
   return (
     <Layout>
       <Head>
