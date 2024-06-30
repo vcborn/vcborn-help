@@ -24,14 +24,6 @@ const moduleExports = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: securityHeaders,
-      },
-    ]
-  },
   publicRuntimeConfig: {
     url: process.env.DIRECTUS_URL,
   },
