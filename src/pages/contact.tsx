@@ -131,7 +131,12 @@ export default function Contact() {
                 className='mr-2 text-black border border-gray-300 p-2 outline-offset-0 duration-100 focus:border-gray-300 focus:ring-0 focus:outline-2 focus:outline-black'
                 {...register('privacy', { required: true })}
               />
-              <label htmlFor='privacy'>プライバシーポリシーに同意する</label>
+              <label htmlFor='privacy'>
+                <a href='https://vcborn.com/privacy' rel='noopener noreferrer' target='_blank'>
+                  プライバシーポリシー
+                </a>
+                に同意する
+              </label>
             </div>
             {errors.privacy && (
               <span className='text-red-500'>プライバシーポリシーに同意する必要があります。</span>
