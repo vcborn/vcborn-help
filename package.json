@@ -6,10 +6,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && next-sitemap --config sitemap.config.js",
-    "prestart": "npm run export",
-    "start": "serve out",
-    "preexport": "npm run build",
-    "export": "next export",
     "lint": "next lint --dir src",
     "lint:fix": "next lint --dir src --fix",
     "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json}'"

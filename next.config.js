@@ -9,7 +9,11 @@ const securityHeaders = [
   },
 ]
 
+/**
+ * @type {import('next').NextConfig}
+ */
 const moduleExports = {
+  output: 'export',
   images: {
     domains: ['console.vcborn.com'],
   },
