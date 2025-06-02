@@ -18,7 +18,7 @@ export default function Layout({
   return (
     <div className='relative min-h-screen'>
       <Header />
-      {search ? <Search /> : <ContactHeader />}
+      <Search />
       <div className='pt-8 container max-w-6xl mx-auto'>{children}</div>
       <Footer />
       <Toaster position='bottom-right' />

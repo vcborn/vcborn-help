@@ -16,11 +16,6 @@ const Header = () => {
               VCborn
             </a>
           </li>
-          <li>
-            <a href='https://status.vcborn.com' className='duration-200 hover:opacity-80'>
-              Server Status
-            </a>
-          </li>
         </ul>
         <FiMenu size={30} onClick={() => setOpen(!open)} className='cursor-pointer md:hidden' />
       </div>
@@ -29,11 +24,6 @@ const Header = () => {
           <li>
             <a href='https://vcborn.com' className='duration-200 hover:opacity-80'>
               VCborn
-            </a>
-          </li>
-          <li>
-            <a href='https://status.vcborn.com' className='duration-200 hover:opacity-80'>
-              Server Status
             </a>
           </li>
         </ul>
